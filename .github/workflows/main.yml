@@ -1,0 +1,29 @@
+name: WhatsApp AI Bot (SAIF ULLAH)
+
+on:
+  workflow_dispatch:
+  # For 24/7 operation, do NOT rely on GitHub Actions cron.
+  # Deploy on Railway, VPS, or any always-on host.
+  # This file is provided for manual testing or self-hosted runner.
+  schedule:
+    - cron: '*/10 * * * *'   # Not for persistent connection; use only if you know limitations
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Start WhatsApp Bot
+        env:
+          FIVE_AIR_API_KEY: ${{ secrets.FIVE_AIR_API_KEY }}
+        run: npm start
